@@ -1,5 +1,6 @@
 ﻿namespace TrabalhoGB.Dominio
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class ONG : IPessoa
@@ -28,5 +29,7 @@
         public Endereco Endereco { get; set; }
 
         public ETipoPessoa TipoPessoa { get; set; }
+
+        public List<Afinidade> Afinidades { get; set; }
     }
 }
