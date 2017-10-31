@@ -18,7 +18,7 @@ namespace TrabalhoGB.Controllers
 
         public ActionResult Teste()
         {
-            var pessoa = new Pessoa();
+            var pessoa = new Voluntario();
 
             return View(pessoa);
         }
