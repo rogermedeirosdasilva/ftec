@@ -160,6 +160,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PessoaController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VoluntarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -763,6 +764,11 @@
     <Content Include="Views\Shared\_LayoutGoverno.cshtml" />
     <Content Include="Views\Entidade\Index.cshtml" />
     <Content Include="Views\Entidade\Aprovar.cshtml" />
+    <Content Include="Views\Shared\_LayoutVoluntario.cshtml" />
+    <Content Include="Views\Voluntario\Afinidades.cshtml" />
+    <Content Include="Views\Voluntario\Index.cshtml" />
+    <Content Include="Views\Voluntario\Campanhas.cshtml" />
+    <Content Include="Views\Voluntario\Doacao.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
