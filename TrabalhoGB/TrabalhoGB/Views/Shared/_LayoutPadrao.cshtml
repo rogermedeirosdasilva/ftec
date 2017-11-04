@@ -1,0 +1,218 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="pt-br" class="ie8"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="pt-br">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Projeto Ajudar - @ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />-->
+    <link href="@Url.Content("~/Assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/animate.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/style.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/style-responsive.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/theme/blue.min.css")" rel="stylesheet" id="theme" />
+    <link href="@Url.Content("~/Assets/css/PA.css?versao=1.0")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/plugins/gritter/css/jquery.gritter.css")" rel="stylesheet" />
+    @RenderSection("CSS", false)
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="@Url.Content("~/Assets/plugins/pace/pace.min.js")"></script>
+    <!-- ================== END BASE JS ================== -->
+</head>
+<body>
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+        <!-- begin #header -->
+        <div id="header" class="header navbar navbar-default navbar-fixed-top no-print">
+            <!-- begin container-fluid -->
+            <div class="container-fluid">
+                <!-- begin mobile sidebar expand / collapse button -->
+                <div class="navbar-header">
+                    <a href="@Url.Content("~/")" class="navbar-brand"><img src="@Url.Content("~/Assets/img/voluntariado_logo.jpg")" class="ms-logo-40" style="float:left;" /> AJUDAR</a>
+                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- end mobile sidebar expand / collapse button -->
+                <!-- begin header navigation right -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form class="navbar-form full-width">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Pesquisar" />
+                                <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label" id="count-msg-notificacao">0</span>
+                        </a>
+                        <ul class="dropdown-menu media-list pull-right animated fadeInDown" id="area-notificacoes">
+                            <li class="dropdown-header">Notificações</li>
+
+                            <li class="dropdown-footer text-center">
+                                <a href="#">Ver Todas</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown navbar-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="http://www.gravatar.com/avatar/@ViewBag.emailmd5" class="ms-logo-40" alt="" />
+                            <span class="hidden-xs">{ Nome }</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInLeft">
+                            <li class="arrow"></li>
+                            <!--
+                                <li><a href="#"><i class="fa fa-user"></i> <span>Meu Perfil</span></a></li>
+                                <li><a href="#"><i class="fa fa-cog"></i> <span>Configurações</span></a></li>
+                            -->
+                            <li class="divider"></li>
+                            <li><a href="javascript:;" id="ms-logout"><i class="fa fa-power-off"></i> <span>Sair</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- end header navigation right -->
+            </div>
+            <!-- end container-fluid -->
+        </div>
+        <!-- end #header -->
+        <!-- begin #sidebar -->
+        <div id="sidebar" class="sidebar no-print">
+            <!-- begin sidebar scrollbar -->
+            <div data-scrollbar="true" data-height="100%">
+                <!-- begin sidebar user -->
+                <ul class="nav">
+                    <li class="nav-profile">
+                        <div class="image">
+                            <a href="javascript:;"><img src="http://www.gravatar.com/avatar/@ViewBag.emailmd5" class="ms-logo-40" alt="" /></a>
+                        </div>
+                        <div class="info">
+                            { Nome } <small id="id_nome_emp"> { usuario.empresa.Nome }</small>
+                        </div>
+                    </li>
+                </ul>
+                <!-- end sidebar user -->
+                <!-- begin sidebar nav -->
+                <ul class="nav">
+                    <li class="nav-header">Navegação</li>
+
+                    <li class="has-sub" id="m-cad">
+                        <a href="#">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-edit"></i>
+                            <span>Cadastros</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li id="m-cad-camp">
+                                <a href="@Url.Content("~/Campanha")"> <span>Campanhas</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="has-sub" id="m-doa">
+                        <a href="#">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-edit"></i>
+                            <span>Doações</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li id="m-doa-inter">
+                                <a href="@Url.Content("~/Interesse")"> <span>Sinalizar Interesse</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- begin sidebar minify button -->
+                    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                    <!-- end sidebar minify button -->
+                </ul>
+                <!-- end sidebar nav -->
+            </div>
+            <!-- end sidebar scrollbar -->
+        </div>
+        <div class="sidebar-bg no-print"></div>
+        <!-- end #sidebar -->
+        <!-- begin #content -->
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+
+        @RenderBody()
+        <!-- end #content -->
+        <!-- begin scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade no-print" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+        <!-- end scroll to top btn -->
+    </div>
+    <!-- end page container -->
+    <!-- #modal-message -->
+    <div class="modal modal-message fade no-print" id="modal-message">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><span id="titulo-modal"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <span id="mensagem-modal"></span>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Fechar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #modal-alert -->
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="@Url.Content("~/Assets/plugins/jquery/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/jquery/jquery-migrate-1.1.0.min.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/bootstrap/js/bootstrap.min.js")"></script>
+    <!--[if lt IE 9]>
+        <script src="@Url.Content("~/Assets/crossbrowserjs/html5shiv.js")"></script>
+        <script src="@Url.Content("~/Assets/crossbrowserjs/respond.min.js")"></script>
+        <script src="@Url.Content("~/Assets/crossbrowserjs/excanvas.min.js")"></script>
+    <![endif]-->
+    <script src="@Url.Content("~/Assets/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/jquery-cookie/jquery.cookie.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/gritter/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/jquery-cookie/jquery.cookie.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/parsley/dist/parsley.js")"></script>
+    <script src="@Url.Content("~/Assets/plugins/parsley/src/i18n/pt-br.js")"></script>
+    <script src="@Url.Content("~/Assets/js/apps.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/PA.Funcoes.js?v1.0")"></script>
+    @RenderSection("JS", false)
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    <script>
+        $(document).ready(function () {
+            App.init();
+            @RenderSection("JSDocumentReady", false)
+
+        	Loader();
+        });
+    </script>
+</body>
+</html>

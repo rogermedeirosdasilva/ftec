@@ -153,7 +153,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CampanhaController.cs" />
+    <Compile Include="Controllers\EntidadeController.cs" />
+    <Compile Include="Controllers\GovernoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InteresseController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PessoaController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,6 +195,7 @@
     <Content Include="Assets\img\pdf-48.png" />
     <Content Include="Assets\img\red_ball.jpg" />
     <Content Include="Assets\img\sig_logo.png" />
+    <Content Include="Assets\img\voluntariado_logo.jpg" />
     <Content Include="Assets\img\yellowball.jpg" />
     <Content Include="Assets\js\apps.js" />
     <Content Include="Assets\js\apps.min.js" />
@@ -748,6 +754,15 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LayoutPadrao.cshtml" />
     <Content Include="Views\Campanha\Index.cshtml" />
+    <Content Include="Views\Campanha\New.cshtml" />
+    <Content Include="Views\Interesse\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Pessoa\Index.cshtml" />
+    <Content Include="Views\Pessoa\ONG.cshtml" />
+    <Content Include="Views\Governo\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutGoverno.cshtml" />
+    <Content Include="Views\Entidade\Index.cshtml" />
+    <Content Include="Views\Entidade\Aprovar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
