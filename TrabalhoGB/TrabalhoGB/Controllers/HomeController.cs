@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TrabalhoGB.Dominio;
+﻿using System.Web.Mvc;
 
 namespace TrabalhoGB.Controllers
 {
@@ -11,18 +6,9 @@ namespace TrabalhoGB.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Dashboard";
 
             return View();
         }
-
-        public ActionResult Teste()
-        {
-            var pessoa = new Voluntario();
-
-            return View(pessoa);
-        }
-
-
     }
 }
