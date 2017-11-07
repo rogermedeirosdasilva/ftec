@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Nova Campanha";
+    Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
+}
+
+@section JSDocumentReady {
+    $("#m-dad").addClass("active");
+    $("#m-dad-doa").addClass("active");
+}
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="@Url.Content("~/")">Dashboard</a></li>
+        <li>@ViewBag.Title</li>
+    </ol>
+
+    <h1 class="page-header">@ViewBag.Title <small>Inclusão</small></h1>
+
+    <div class="profile-container">
+        <form class="form-actions" id="form" data-parsley-validate>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="campanha" class="control-label col-md-2">Campanha</label>
+                    <div class="col-md-6">
+                        <select name="campanha" id="campanha" class="form-control input-lg"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="doacao" class="control-label col-md-2">Doação</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control input-lg" id="doacao" name="doacao" placeholder="Doação" maxlength="100" required value="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <input type="button" value="Salvar" class="btn btn-primary" id="btnSalvar" />
+                        <input type="button" value="Cancelar" class="btn btn-default" id="btnCancelar" onclick="history.back();" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
