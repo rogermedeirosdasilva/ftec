@@ -58,51 +58,51 @@
             <div class="login-content">
                 <div id="ms-alerta"></div>
 
-                <form class="margin-bottom-0" data-parsley-validate>
+                <form class="form-actions margin-bottom-0" id="form" data-parsley-validate>
                     <input type="hidden" id="ms-returnurl" value="@ViewBag.ReturnUrl" />
                     <label for="nome">Razão Social</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="nome" id="nome" placeholder="Razão Social" required data-parsley-trigger="change" />
+                        <input type="text" class="form-control input-lg" name="Nome" id="Nome" placeholder="Razão Social" required data-parsley-trigger="change" />
                     </div>
                     <label for="email">E-mail</label>
                     <div class="form-group m-b-20">
-                        <input type="email" class="form-control input-lg" name="email" id="email" placeholder="E-mail" required data-parsley-trigger="change" />
+                        <input type="email" class="form-control input-lg" name="Email" id="Email" placeholder="E-mail" required data-parsley-trigger="change" />
                     </div>
                     <label for="documento">CNPJ</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="documento" id="documento" placeholder="CNPJ" required data-parsley-trigger="change" />
+                        <input type="text" class="form-control input-lg" name="Documento" id="Documento" placeholder="CNPJ" required data-parsley-trigger="change" />
                     </div>
 
                     <label for="senha">Senha</label>
                     <div class="form-group m-b-20">
-                        <input type="password" class="form-control input-lg" name="senha" id="senha" placeholder="Senha" required />
+                        <input type="password" class="form-control input-lg" name="Senha" id="Senha" placeholder="Senha" required />
                     </div>
 
                     <label for="telefone">Telefone</label>
                     <div class="form-group m-b-20">
-                        <input type="tel" class="form-control input-lg" name="telfone" id="telefone" placeholder="Telefone de Contato"/>
+                        <input type="tel" class="form-control input-lg" name="Telfone" id="Telefone" placeholder="Telefone de Contato" />
                     </div>
 
                     <label for="cep">CEP</label>
                     <div class="form-group m-b-20">
-                        <input type="tel" class="form-control input-lg" name="cep" id="cep" placeholder="CEP" />
+                        <input type="tel" class="form-control input-lg" name="CEP" id="CEP" placeholder="CEP" />
                     </div>
 
                     <label for="logradouro">Rua / Avenida</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="logradouro" id="logradouro" placeholder="CEP" />
+                        <input type="text" class="form-control input-lg" name="Logradouro" id="Logradouro" placeholder="CEP" />
                     </div>
                     <label for="numero">Número</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="numero" id="numero" placeholder="Número" />
+                        <input type="text" class="form-control input-lg" name="Numero" id="Numero" placeholder="Número" />
                     </div>
                     <label for="bairro">Bairro</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="bairro" id="bairro" placeholder="Bairro" />
+                        <input type="text" class="form-control input-lg" name="Bairro" id="Bairro" placeholder="Bairro" />
                     </div>
                     <label for="cidade">Cidade</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" name="cidade" id="cidade" placeholder="Cidade" />
+                        <input type="text" class="form-control input-lg" name="Cidade" id="Cidade" placeholder="Cidade" />
                     </div>
                     <label for="UF">UF</label>
                     <div class="form-group m-b-20">
@@ -142,6 +142,10 @@
     <script>
         $(document).ready(function () {
             App.init();
+
+            $("#ms-bt-save").click(function () {
+                InsereONG();
+            });
         });
     </script>
 </body>

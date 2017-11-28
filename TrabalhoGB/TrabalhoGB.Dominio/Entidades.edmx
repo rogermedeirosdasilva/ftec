@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Dominio.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Afinidade">
+          <Key>
+            <PropertyRef Name="CodigoAfinidade" />
+          </Key>
+          <Property Name="CodigoAfinidade" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Campanha">
+          <Key>
+            <PropertyRef Name="CodigoCampanha" />
+          </Key>
+          <Property Name="CodigoCampanha" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="DataInicio" Type="smalldatetime" Nullable="false" />
+          <Property Name="DataTermino" Type="smalldatetime" Nullable="false" />
+          <Property Name="CodigoAfinidade" Type="varchar" MaxLength="36" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doacao">
+          <Key>
+            <PropertyRef Name="CodigoDoacao" />
+          </Key>
+          <Property Name="CodigoDoacao" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="CodigoCampanha" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Situacao" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="CodigoPessoa" />
+          </Key>
+          <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Documento" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Senha" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefone" Type="varchar" MaxLength="20" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="CEP" Type="char" MaxLength="8" />
+          <Property Name="Logradouro" Type="varchar" MaxLength="100" />
+          <Property Name="Numero" Type="varchar" MaxLength="20" />
+          <Property Name="Bairro" Type="varchar" MaxLength="100" />
+          <Property Name="Cidade" Type="varchar" MaxLength="100" />
+          <Property Name="UF" Type="char" MaxLength="2" />
+          <Property Name="Aprovado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PessoaAfinidade">
+          <Key>
+            <PropertyRef Name="CodigoPessoa" />
+            <PropertyRef Name="CodigoAfinidade" />
+          </Key>
+          <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="CodigoAfinidade" Type="varchar" MaxLength="36" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Campanha_Afinidade">
+          <End Role="Afinidade" Type="Self.Afinidade" Multiplicity="1" />
+          <End Role="Campanha" Type="Self.Campanha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Afinidade">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Principal>
+            <Dependent Role="Campanha">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doacao_Campanha">
+          <End Role="Campanha" Type="Self.Campanha" Multiplicity="1" />
+          <End Role="Doacao" Type="Self.Doacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campanha">
+              <PropertyRef Name="CodigoCampanha" />
+            </Principal>
+            <Dependent Role="Doacao">
+              <PropertyRef Name="CodigoCampanha" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doacao_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Doacao" Type="Self.Doacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="CodigoPessoa" />
+            </Principal>
+            <Dependent Role="Doacao">
+              <PropertyRef Name="CodigoPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PessoaAfinidade_Afinidade">
+          <End Role="Afinidade" Type="Self.Afinidade" Multiplicity="1" />
+          <End Role="PessoaAfinidade" Type="Self.PessoaAfinidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Afinidade">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Principal>
+            <Dependent Role="PessoaAfinidade">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PessoaAfinidade_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="PessoaAfinidade" Type="Self.PessoaAfinidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="CodigoPessoa" />
+            </Principal>
+            <Dependent Role="PessoaAfinidade">
+              <PropertyRef Name="CodigoPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DominioStoreContainer">
+          <EntitySet Name="Afinidade" EntityType="Self.Afinidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Campanha" EntityType="Self.Campanha" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doacao" EntityType="Self.Doacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PessoaAfinidade" EntityType="Self.PessoaAfinidade" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Campanha_Afinidade" Association="Self.FK_Campanha_Afinidade">
+            <End Role="Afinidade" EntitySet="Afinidade" />
+            <End Role="Campanha" EntitySet="Campanha" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doacao_Campanha" Association="Self.FK_Doacao_Campanha">
+            <End Role="Campanha" EntitySet="Campanha" />
+            <End Role="Doacao" EntitySet="Doacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doacao_Pessoa" Association="Self.FK_Doacao_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Doacao" EntitySet="Doacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PessoaAfinidade_Afinidade" Association="Self.FK_PessoaAfinidade_Afinidade">
+            <End Role="Afinidade" EntitySet="Afinidade" />
+            <End Role="PessoaAfinidade" EntitySet="PessoaAfinidade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PessoaAfinidade_Pessoa" Association="Self.FK_PessoaAfinidade_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="PessoaAfinidade" EntitySet="PessoaAfinidade" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Dominio" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Afinidade">
+          <Key>
+            <PropertyRef Name="CodigoAfinidade" />
+          </Key>
+          <Property Name="CodigoAfinidade" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Campanha" Relationship="Self.FK_Campanha_Afinidade" FromRole="Afinidade" ToRole="Campanha" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.PessoaAfinidade" FromRole="Afinidade" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Campanha">
+          <Key>
+            <PropertyRef Name="CodigoCampanha" />
+          </Key>
+          <Property Name="CodigoCampanha" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataTermino" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CodigoAfinidade" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Afinidade" Relationship="Self.FK_Campanha_Afinidade" FromRole="Campanha" ToRole="Afinidade" />
+          <NavigationProperty Name="Doacao" Relationship="Self.FK_Doacao_Campanha" FromRole="Campanha" ToRole="Doacao" />
+        </EntityType>
+        <EntityType Name="Doacao">
+          <Key>
+            <PropertyRef Name="CodigoDoacao" />
+          </Key>
+          <Property Name="CodigoDoacao" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodigoPessoa" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodigoCampanha" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Situacao" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Campanha" Relationship="Self.FK_Doacao_Campanha" FromRole="Doacao" ToRole="Campanha" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Doacao_Pessoa" FromRole="Doacao" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="CodigoPessoa" />
+          </Key>
+          <Property Name="CodigoPessoa" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Documento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Senha" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="CEP" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="Logradouro" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Numero" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Bairro" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cidade" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UF" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Aprovado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Doacao" Relationship="Self.FK_Doacao_Pessoa" FromRole="Pessoa" ToRole="Doacao" />
+          <NavigationProperty Name="Afinidade" Relationship="Self.PessoaAfinidade" FromRole="Pessoa" ToRole="Afinidade" />
+        </EntityType>
+        <Association Name="FK_Campanha_Afinidade">
+          <End Role="Afinidade" Type="Self.Afinidade" Multiplicity="1" />
+          <End Role="Campanha" Type="Self.Campanha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Afinidade">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Principal>
+            <Dependent Role="Campanha">
+              <PropertyRef Name="CodigoAfinidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doacao_Campanha">
+          <End Role="Campanha" Type="Self.Campanha" Multiplicity="1" />
+          <End Role="Doacao" Type="Self.Doacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campanha">
+              <PropertyRef Name="CodigoCampanha" />
+            </Principal>
+            <Dependent Role="Doacao">
+              <PropertyRef Name="CodigoCampanha" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doacao_Pessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+          <End Role="Doacao" Type="Self.Doacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="CodigoPessoa" />
+            </Principal>
+            <Dependent Role="Doacao">
+              <PropertyRef Name="CodigoPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PessoaAfinidade">
+          <End Role="Afinidade" Type="Self.Afinidade" Multiplicity="*" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Afinidade" EntityType="Self.Afinidade" />
+          <EntitySet Name="Campanha" EntityType="Self.Campanha" />
+          <EntitySet Name="Doacao" EntityType="Self.Doacao" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+          <AssociationSet Name="FK_Campanha_Afinidade" Association="Self.FK_Campanha_Afinidade">
+            <End Role="Afinidade" EntitySet="Afinidade" />
+            <End Role="Campanha" EntitySet="Campanha" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doacao_Campanha" Association="Self.FK_Doacao_Campanha">
+            <End Role="Campanha" EntitySet="Campanha" />
+            <End Role="Doacao" EntitySet="Doacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doacao_Pessoa" Association="Self.FK_Doacao_Pessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Doacao" EntitySet="Doacao" />
+          </AssociationSet>
+          <AssociationSet Name="PessoaAfinidade" Association="Self.PessoaAfinidade">
+            <End Role="Afinidade" EntitySet="Afinidade" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DominioStoreContainer" CdmEntityContainer="DBContext">
+          <EntitySetMapping Name="Afinidade">
+            <EntityTypeMapping TypeName="Dominio.Afinidade">
+              <MappingFragment StoreEntitySet="Afinidade">
+                <ScalarProperty Name="CodigoAfinidade" ColumnName="CodigoAfinidade" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Campanha">
+            <EntityTypeMapping TypeName="Dominio.Campanha">
+              <MappingFragment StoreEntitySet="Campanha">
+                <ScalarProperty Name="CodigoCampanha" ColumnName="CodigoCampanha" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+                <ScalarProperty Name="DataTermino" ColumnName="DataTermino" />
+                <ScalarProperty Name="CodigoAfinidade" ColumnName="CodigoAfinidade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doacao">
+            <EntityTypeMapping TypeName="Dominio.Doacao">
+              <MappingFragment StoreEntitySet="Doacao">
+                <ScalarProperty Name="CodigoDoacao" ColumnName="CodigoDoacao" />
+                <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
+                <ScalarProperty Name="CodigoCampanha" ColumnName="CodigoCampanha" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Situacao" ColumnName="Situacao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoa">
+            <EntityTypeMapping TypeName="Dominio.Pessoa">
+              <MappingFragment StoreEntitySet="Pessoa">
+                <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Senha" ColumnName="Senha" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="CEP" ColumnName="CEP" />
+                <ScalarProperty Name="Logradouro" ColumnName="Logradouro" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Bairro" ColumnName="Bairro" />
+                <ScalarProperty Name="Cidade" ColumnName="Cidade" />
+                <ScalarProperty Name="UF" ColumnName="UF" />
+                <ScalarProperty Name="Aprovado" ColumnName="Aprovado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PessoaAfinidade" TypeName="Dominio.PessoaAfinidade" StoreEntitySet="PessoaAfinidade">
+            <EndProperty Name="Afinidade">
+              <ScalarProperty Name="CodigoAfinidade" ColumnName="CodigoAfinidade" />
+            </EndProperty>
+            <EndProperty Name="Pessoa">
+              <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

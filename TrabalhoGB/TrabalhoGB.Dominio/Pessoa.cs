@@ -12,23 +12,33 @@ namespace TrabalhoGB.Dominio
     using System;
     using System.Collections.Generic;
     
-    public partial class Campanha
+    public partial class Pessoa
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Campanha()
+        public Pessoa()
         {
             this.Doacao = new HashSet<Doacao>();
+            this.Afinidade = new HashSet<Afinidade>();
         }
     
-        public string CodigoCampanha { get; set; }
+        public string CodigoPessoa { get; set; }
         public string Nome { get; set; }
-        public string Descricao { get; set; }
-        public System.DateTime DataInicio { get; set; }
-        public System.DateTime DataTermino { get; set; }
-        public string CodigoAfinidade { get; set; }
+        public string Documento { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+        public string Telefone { get; set; }
+        public int Tipo { get; set; }
+        public string CEP { get; set; }
+        public string Logradouro { get; set; }
+        public string Numero { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string UF { get; set; }
+        public string Aprovado { get; set; }
     
-        public virtual Afinidade Afinidade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Doacao> Doacao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Afinidade> Afinidade { get; set; }
     }
 }

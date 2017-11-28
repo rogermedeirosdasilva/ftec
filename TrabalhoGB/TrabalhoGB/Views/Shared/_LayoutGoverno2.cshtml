@@ -1,5 +1,9 @@
-﻿@{
+﻿@using TrabalhoGB.Dominio
+
+@{
     Layout = null;
+
+    Pessoa usuario = (Pessoa)ViewBag.Usuario;
 }
 
 <!DOCTYPE html>
@@ -80,7 +84,7 @@
                     <li class="dropdown navbar-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="http://www.gravatar.com/avatar/@ViewBag.emailmd5" class="ms-logo-40" alt="" />
-                            <span class="hidden-xs">{ Nome }</span> <b class="caret"></b>
+                            <span class="hidden-xs">@usuario.Nome</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
                             <li class="arrow"></li>
@@ -109,7 +113,7 @@
                             <a href="javascript:;"><img src="http://www.gravatar.com/avatar/@ViewBag.emailmd5" class="ms-logo-40" alt="" /></a>
                         </div>
                         <div class="info">
-                            { Nome } <small id="id_nome_emp"> { usuario.empresa.Nome }</small>
+                            @usuario.Nome
                         </div>
                     </li>
                 </ul>
@@ -118,25 +122,28 @@
                 <ul class="nav">
                     <li class="nav-header">Navegação</li>
 
-                    <li class="has-sub" id="m-dad">
+                    @if (usuario.Tipo.Equals((int)ETipoPessoa.GOVERNO))
+                    {
+                    <li class="has-sub" id="m-ent">
                         <a href="#">
                             <b class="caret pull-right"></b>
                             <i class="fa fa-edit"></i>
-                            <span>Meus Dados</span>
+                            <span>Entidades</span>
                         </a>
                         <ul class="sub-menu">
-                            <li id="m-dad-afi">
-                                <a href="@Url.Content("~/Voluntario/Afinidades")"> <span>Minhas Afinidades</span></a>
+                            <li id="m-ent-lis">
+                                <a href="@Url.Content("~/Entidade")"> <span>Listagem</span></a>
                             </li>
-                            <li id="m-dad-cam">
-                                <a href="@Url.Content("~/Voluntario/Campanhas")"> <span>Minhas Campanhas</span></a>
-                            </li>
-
-                            <li id="m-dad-doa">
-                                <a href="@Url.Content("~/Voluntario/Doacao")"> <span>Efetuar Doação</span></a>
+                            <li id="m-ent-apr">
+                                <a href="@Url.Content("~/Entidade/Aprovar")"> <span>Aprovação</span></a>
                             </li>
                         </ul>
                     </li>
+                    }
+
+                    @if (usuario.Tipo.Equals((int)ETipoPessoa.ONG))
+                    {
+                    }
 
                     <!-- begin sidebar minify button -->
                     <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

@@ -17,7 +17,7 @@ $("#ms-bt-senha").click(function () {
 MSLogin = function (Email, Senha, manterConectado, ReturnUrl) {
     $.ajax({
         type: 'post',
-        url: 'DoLogin',
+        url: '/Pessoa/DoLogin',
         data: { Email: Email, Senha: Senha, manterConectado: manterConectado },
         beforeSend: function () {
             MSConfirmaForm($("#ms-bt-login"), false);
@@ -26,7 +26,8 @@ MSLogin = function (Email, Senha, manterConectado, ReturnUrl) {
             MSConfirmaForm($("#ms-bt-login"), true);
         },
         success: function (data) {
-            if (data.situacao === false) {
+            console.log(data);
+            if (data.situacao == false) {
                 MSAlerta("warning", "Atenção!", data.mensagem, $("#ms-alerta"));
             } else {
                 if (ReturnUrl === "")

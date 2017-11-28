@@ -50,11 +50,11 @@ StatusRelatorio = function (c, t) {
 $("#ms-logout").click(function () {
     $.ajax({
         type: 'post',
-        url: '/Usuario/Logout/',
+        url: '/Pessoa/Logout/',
         async: false,
         success: function (data) {
             if (data.situacao === true) {
-                window.location = "/Usuario/Login";
+                window.location = "/Login";
             }
         }
     });
@@ -1016,7 +1016,6 @@ function PrintElem(elem) {
     return true;
 }
 
-
 function printDiv(divID) {
     //Get the HTML of div
     var divElements = document.getElementById(divID).innerHTML;
@@ -1104,305 +1103,54 @@ function PrintElem(elem, title, css) {
     return this;
 }
 
-CarregaPessoas = function () {
-	$.ajax({
-		type: 'post',
-		url: '/Pessoa/getAll',
-		dataType: "json",
-		beforeSend: function () {
-			Carregando(true);
-		},
-		complete: function () {
-			Carregando(false);
-		},
-		success: function (data) {
-			var tabela = $("#itens-checklist");
-			tabela.empty();
+InsereVoluntario = function () {
+    if ($('#form').parsley().validate()) {
+        $.ajax({
+            type: 'post',
+            url: '/Pessoa/InsereVoluntario',
+            data: $("#form").serialize(),
+            beforeSend: function () {
+                $("#ms-alerta").empty();
+                Carregando(true);
+            },
+            complete: function () {
+                Carregando(false);
+            },
+            success: function (data) {
+                if (data.Sucesso == true) {
+                    alert("Voluntário cadastrado com sucesso.");
 
-			$.map(data.pessoas, function (item) {
-				tabela.append(
-					"<tr>" +
-					"<td><a href=\"javascript:InsereFabricaNoUsuario('" + item.PessoaID + "');\">" + item.Fantasia + "</a></td>" +
-					"</tr>"
-				);
-			});
-
-			$("#myModal").modal("show");
-		}
-	});
-};
-
-InsereFabricaNoUsuario = function (codigo) {
-	$.ajax({
-		type: 'post',
-		url: '/Usuario/AddFabrica',
-		data: { ID: $("#ID").val(), Item: codigo },
-		beforeSend: function () {
-			Carregando(true);
-		},
-		complete: function () {
-			Carregando(false);
-		},
-		success: function (data) {
-			location.reload();
-		}
-	});
-};
-
-ExcluiUsuarioFabrica = function (fabrica, usuario) {
-	$.ajax({
-		type: 'post',
-		url: '/Usuario/RemoveFabrica',
-		data: { id: usuario, fabrica : fabrica },
-		beforeSend: function () {
-			Carregando(true);
-		},
-		complete: function () {
-			Carregando(false);
-		},
-		success: function (data) {
-			location.reload();
-		}
-	});
-};
-
-DadosDashboard = function () {
-    $.ajax({
-        type: 'post',
-        url: '/Home/CarregaDashBoard',
-        beforeSend: function () {
-            Carregando(true);
-        },
-        complete: function () {
-            Carregando(false);
-        },
-        success: function (data) {
-            $("#i-n-r").text(data.InspecoesNaoRevisadas);
-            $("#i-a").text(data.InspecoesAprovadas);
-            $("#i-r").text(data.InspecoesReprovadas);
-            $("#c-p").text(data.ParesColecao);
-            $("#p-e").text(data.ParesEmbarcados);
-            $("#p-r").text(data.ParesRejeitados);
-            $("#pr-e").text(data.PercentualEmbarcado.toFixed(2));
-        }
-    });
-};
-
-MontaRelatorioComparativoFabricas = function () {
-    $.ajax({
-        type: 'post',
-        url: '/Relatorio/DadosComparativoFabricas',
-        data: { Periodo: $("#periodo").val().join(','), CheckList: $("#checklist").val().join(',') },
-        beforeSend: function () {
-            Carregando(true);
-        },
-        complete: function () {
-            Carregando(false);
-        },
-        success: function (data) {
-            $("#nome-fabricas").empty();
-            $("#grafico-fabricas").empty();
-            $("#perc-fabricas").empty();
-            $("#dados-tabela").empty();
-
-            var MaiorValor = 0;
-
-            var grafico = "";
-            var labels = "";
-            var totais = "";
-            var classe = "fundo-verde-2";
-
-            // Gráfico da Dashboard
-            for (var i = 0; i < data.fabricas.length; i++) {
-                var obj = data.fabricas[i];
-
-                if (i >= 12) {
-                    break;
+                    location.href = "/Login";
+                } else {
+                    MSAlerta("danger", "Atenção!", data.Mensagem, $("#ms-alerta"));
                 }
-
-                if (i >= 0) 
-                {
-                    classe = "fundo-vermelho-2";
-                }
-                
-                if (obj.Percentual > MaiorValor) {
-                    MaiorValor = obj.Percentual;
-                }
-
-                labels += "<div class='col-sm-1 col-md-1 col-sm-1 comparativo-label'>" + obj.Fabrica + "</div>";
-
-                grafico += "<div class='col-md-1 col-sm-1'>";
-
-                grafico += "<div class='row barras-grafico'>";
-                grafico += "<div id='P_" + obj.CodFabrica + "' class='col-sm-6 col-sm-1 col-md-6 barra-grafico " + classe + " fonte-preto'>";
-                grafico += "<div class='texto-vertical-2 comparativo-label fonte-preto'>" + obj.Percentual.toFixed(2) + "%</div>";
-                grafico += "</div>";
-                grafico += "</div>";
-                grafico += "</div>";
-            }
-
-            $("#nome-fabricas").html(labels);
-            $("#grafico-fabricas").html(grafico);
-            $("#perc-fabricas").html(totais);
-           
-            MaiorValor = MaiorValor + (MaiorValor * 0.1);
-            var alturaPadrao = 240;
-            var margem = 20;
-
-            var Percentual = 0;
-            for (var i = 0; i < data.fabricas.length; i++) {
-                var obj = data.fabricas[i];
-
-                Percentual = ((obj.Percentual / MaiorValor) * 100)
-                var altura = ((alturaPadrao - margem) * (Percentual / 100));
-                $("#P_" + obj.CodFabrica).height(altura);
-                $("#P_" + obj.CodFabrica).css("top", (alturaPadrao - altura));                
-            }
-
-            var TotalInspecionado = 0;
-            var TotalRejeitado = 0;
-
-            for (var i = 0; i < data.fabricas.length; i++) {
-                var obj = data.fabricas[i];
-
-                var linha = "<tr><th class='col-md-1' scope='row'>" + (i + 1) + "</th>";
-                linha += "<td>" + obj.Fabrica + "</td>";
-                linha += "<td class='col-md-1'>" + obj.Pares + "</td>";
-                linha += "<td class='col-md-1'>" + obj.Defeitos + "</td>";
-                linha += "<td class='col-md-1'>" + obj.Percentual + "</td>";
-                linha += "</tr>";
-
-                $("#dados-tabela").append(linha);
-
-                TotalInspecionado += obj.Pares;
-                TotalRejeitado += obj.Defeitos;
-            }
-
-            // Grafico top 5
-            var labels2 = [];
-            var values2 = [];
-            var labels3 = [];
-            var values3 = [];
-            var colors2 = [];
-            var colors3 = [];
-            var ultimo = 0;
-
-            if (data.resumo.length > 0) {
-                $.each(data.resumo, function (index, value) {
-                    if (index < 5) {
-                        labels2[index] = value.Fabrica;
-                        values2[index] = value.Defeitos;
-                        colors2[index] = "#f5fc09";
-                        ultimo = index;
-                    }
-                });
-
-                colors2[ultimo] = '#ff0000';
-            }
-
-            getBarTop5(values2, labels2, colors2);
-
-            labels3[0] = "Rejeitados";
-            values3[0] = TotalRejeitado;
-            labels3[1] = "Inspecionados";
-            values3[1] = TotalInspecionado;
-            colors3[1] = "#0b8812";
-            colors3[0] = "#ff0000";
-
-            getBarRejeicao(values3, labels3, colors3);
-        }
-    });
-};
-
-getBarTop5 = function (v1, l1, c1) {
-    var RG = RGraph;
-    RG.clear(document.getElementById("top5"));
-
-    if (bar1 == null) {
-        bar1 = new RGraph.HBar({
-            id: "top5",
-            data: v1,
-            options: {
-                gutterLeftAutosize: false,
-                vmargin: 10,
-                backgroundGridHlines: false,
-                backgroundGridBorder: false,
-                noaxes: false,
-                xlabels: true,
-                xlabelsDecimals: 0,
-                labelsBold: false,
-                colors: c1,
-                colorsSequential: true,
-                textSize: 14,
-                textAccessible: true,
-                labelsAboveSize: 18,
-                labels: l1,
-                scaleZerostart: true,
-                labelsAbove: true,
-                labelsAboveBold: false
             }
         });
     }
+};
 
-    bar1.data = v1;
-    bar1.set({
-        labels: l1,
-        colors: c1
-    });
+InsereONG = function () {
+    if ($('#form').parsley().validate()) {
+        $.ajax({
+            type: 'post',
+            url: '/Pessoa/InsereONG',
+            data: $("#form").serialize(),
+            beforeSend: function () {
+                $("#ms-alerta").empty();
+                Carregando(true);
+            },
+            complete: function () {
+                Carregando(false);
+            },
+            success: function (data) {
+                if (data.Sucesso == true) {
+                    alert("ONG cadastrada com sucesso. Aguarde aprovação de cadastro.");
 
-    bar1.draw();
-
-    return bar1;
-}
-
-getBarRejeicao = function (v1, l1, c1) {
-    var RG = RGraph;
-    RG.clear(document.getElementById("rejeicao"));
-
-    $("#grafic-ph2 div").children().empty();
-
-    //if (bar2 == null) {
-        bar2 = new RGraph.Pie({
-            id: 'rejeicao',
-            data: [],
-            options: {
-                variant: 'donut',
-                linewidth: 5,
-                exploded: 5,
-                strokestyle: 'rgba(0,0,0,0)',
-                align: 'left',
-                keyPositionY: 220,
-                shadow: false,
-                centerx: 185
+                    location.href = "/Login";
+                } else {
+                    MSAlerta("danger", "Atenção!", data.Mensagem, $("#ms-alerta"));
+                }
             }
         });
-    //}
-
-    bar2.data = v1;
-    bar2.set({
-        labels: l1,
-        colors: c1,
-        labelsColors: ['#000', '#000']
-    });
-
-    bar2.draw();
-
-    textbar2 = new RGraph.Drawing.Text({
-        id: 'rejeicao',
-        x: bar2.centerx,
-        y: bar2.centery,
-        text: ((bar2.data[0] / bar2.data[1]) * 100).toFixed(1) + "%",
-        options: {
-            font: 'Arial',
-            size: 30,
-            halign: 'center',
-            'valign': 'center',
-            colors: ['#000']
-        }
-    });
-
-    textbar2.draw();
-    
-
-    return bar2;
+    }
 };

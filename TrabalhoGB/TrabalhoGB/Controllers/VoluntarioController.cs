@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace TrabalhoGB.Controllers
 {
-    public class VoluntarioController : Controller
+    public class VoluntarioController : GBBaseController
     {
         // GET: Voluntario
         public ActionResult Index()
         {
+            CarregaUsuario();
+
             return View();
         }
 

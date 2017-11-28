@@ -2,11 +2,14 @@
 
 namespace TrabalhoGB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : GBBaseController
     {
+        [Authorize]
         public ActionResult Index()
         {
             ViewBag.Title = "Dashboard";
+
+            CarregaUsuario();
 
             return View();
         }

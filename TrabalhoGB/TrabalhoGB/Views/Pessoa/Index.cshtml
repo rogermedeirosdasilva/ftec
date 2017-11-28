@@ -2,7 +2,7 @@
     Layout = null;
 }
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 8]> <html lang="pt-br" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="pt-br">
 <!--<![endif]-->
@@ -58,24 +58,24 @@
             <div class="login-content">
                 <div id="ms-alerta"></div>
 
-                <form class="margin-bottom-0" data-parsley-validate>
+                <form class="form-actions margin-bottom-0" id="form" data-parsley-validate>
                     <input type="hidden" id="ms-returnurl" value="@ViewBag.ReturnUrl" />
                     <label for="nome">Nome Completo</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" id="nome" placeholder="Nome Completo" required data-parsley-trigger="change" />
+                        <input type="text" class="form-control input-lg" id="Nome" name="Nome" placeholder="Nome Completo" required data-parsley-trigger="change" />
                     </div>
                     <label for="email">E-mail</label>
                     <div class="form-group m-b-20">
-                        <input type="email" class="form-control input-lg" id="email" placeholder="E-mail" required data-parsley-trigger="change" />
+                        <input type="email" class="form-control input-lg" id="Email" name="Email" placeholder="E-mail" required data-parsley-trigger="change" />
                     </div>
                     <label for="documento">CPF</label>
                     <div class="form-group m-b-20">
-                        <input type="text" class="form-control input-lg" id="documento" placeholder="CPF" required data-parsley-trigger="change" />
+                        <input type="text" class="form-control input-lg" id="Documento" name="Documento" placeholder="CPF" required data-parsley-trigger="change" />
                     </div>
 
                     <label for="senha">Senha</label>
                     <div class="form-group m-b-20">
-                        <input type="password" class="form-control input-lg" id="senha" placeholder="Senha" required />
+                        <input type="password" class="form-control input-lg" id="Senha" name="Senha" placeholder="Senha" required />
                     </div>
 
                     <div class="login-buttons">
@@ -111,6 +111,10 @@
     <script>
         $(document).ready(function () {
             App.init();
+
+            $("#ms-bt-save").click(function () {
+                InsereVoluntario();
+            });
         });
     </script>
 </body>

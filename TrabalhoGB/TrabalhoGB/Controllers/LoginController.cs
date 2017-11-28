@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Interacao.Framework.MVC;
 using System.Web.Mvc;
 
 namespace TrabalhoGB.Controllers
 {
     public class LoginController : Controller
     {
-        // GET: Login
-        public ActionResult Index()
+        public ActionResult Index(string ReturnUrl)
         {
+            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated && !string.IsNullOrEmpty(IMHelper.GetCookie(this, "UID")))
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.ReturnUrl = ReturnUrl;
+
             return View();
         }
     }
