@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Afinidades";
-    Layout = "~/Views/Shared/_LayoutVoluntario.cshtml";
+    Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
 }
 
 @section JSDocumentReady {
@@ -8,12 +8,12 @@
     $("#m-dad-afi").addClass("active");
 
     if ($('#data-table').length !== 0) {
-    $('#data-table').DataTable({
-    responsive: true,
-    language: {
-    url: '/grid-pt_br.json'
-    }
-    });
+        $('#data-table').DataTable({
+            responsive: true,
+            language: {
+                url: '/grid-pt_br.json'
+            }
+        });
     }
 }
 

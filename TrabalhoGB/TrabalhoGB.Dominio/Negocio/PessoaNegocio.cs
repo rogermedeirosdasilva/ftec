@@ -3,6 +3,7 @@
     using System;
     using Interacao.Framework;
     using System.Linq;
+    using System.Collections.Generic;
 
     public class PessoaNegocio
     {
@@ -153,6 +154,14 @@
                 Mensagem = "FEITO",
                 New = pessoa
             };
+        }
+
+        public List<Pessoa> ListaONGPendentes()
+        {
+            var Dados = Repositorio.PegaInstancia();
+            int tipo = (int)ETipoPessoa.ONG;
+
+            return Dados.Pessoa.Where(w => w.Tipo.Equals(tipo) && w.Aprovado.Equals("N")).ToList();
         }
     }
 }

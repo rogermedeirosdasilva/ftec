@@ -4,6 +4,7 @@
     Layout = null;
 
     Pessoa usuario = (Pessoa)ViewBag.Usuario;
+    string tipo = ((ETipoPessoa)usuario.Tipo).ToString();
 }
 
 <!DOCTYPE html>
@@ -113,7 +114,7 @@
                             <a href="javascript:;"><img src="http://www.gravatar.com/avatar/@ViewBag.emailmd5" class="ms-logo-40" alt="" /></a>
                         </div>
                         <div class="info">
-                            @usuario.Nome
+                            @usuario.Nome <small>( @tipo )</small>
                         </div>
                     </li>
                 </ul>
