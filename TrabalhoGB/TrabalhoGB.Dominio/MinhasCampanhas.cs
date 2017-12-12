@@ -12,16 +12,10 @@ namespace TrabalhoGB.Dominio
     using System;
     using System.Collections.Generic;
     
-    public partial class Doacao
+    public partial class MinhasCampanhas
     {
-        public string CodigoDoacao { get; set; }
-        public string CodigoPessoa { get; set; }
         public string CodigoCampanha { get; set; }
-        public string Descricao { get; set; }
-        public string Situacao { get; set; }
-        public decimal Quantidade { get; set; }
-    
-        public virtual Campanha Campanha { get; set; }
-        public virtual Pessoa Pessoa { get; set; }
+        public string Nome { get; set; }
+        public string CodigoPessoa { get; set; }
     }
 }

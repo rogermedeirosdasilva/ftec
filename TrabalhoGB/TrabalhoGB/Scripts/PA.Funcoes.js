@@ -1154,3 +1154,168 @@ InsereONG = function () {
         });
     }
 };
+
+AtualizaAfinidade = function (id, estado) {
+    if (estado === undefined) {
+        estado = "N";
+    } else {
+        estado = "S";
+    }
+
+    $.ajax({
+        type: 'post',
+        url: '/Voluntario/AtualizaAfinidade',
+        data: {
+            afinidade: id, selecionado: estado
+        },
+        beforeSend: function () {
+            $("#ms-alerta").empty();
+            Carregando(true);
+        },
+        complete: function () {
+            Carregando(false);
+        }
+    });
+}
+
+AprovaONG = function (id, estado) {
+    if (estado === undefined) {
+        return;
+    }
+    
+    $.ajax({
+        type: 'post',
+        url: '/Entidade/AprovaEntidade',
+        data: {
+            id: id
+        },
+        beforeSend: function () {
+            $("#ms-alerta").empty();
+            Carregando(true);
+        },
+        complete: function () {
+            Carregando(false);
+            location.reload();
+        }
+    });
+}
+
+ComboCampanha = function (objeto) {
+    $.ajax({
+        type: 'post',
+        url: '/Campanha/ComboCampanha',
+        beforeSend: function () {
+            Carregando(true);
+        },
+        complete: function () {
+            Carregando(false);
+        },
+        success: function (data) {
+            var html = "";
+
+            $.map(data, function (item) {
+                html += "<option value='" + item.CodigoCampanha + "'>" + item.Nome + "</option>";
+            });
+
+            $(objeto).html(html);
+        }
+    });
+}
+
+InsereDoacao = function () {
+    if ($('#form').parsley().validate()) {
+        $.ajax({
+            type: 'post',
+            url: '/Voluntario/InsereDoacao',
+            data: $("#form").serialize(),
+            beforeSend: function () {
+                $("#ms-alerta").empty();
+                Carregando(true);
+            },
+            complete: function () {
+                Carregando(false);
+            },
+            success: function (data) {
+                if (data.Sucesso === true) {
+                    alert("Doação cadastrada com sucesso.");
+
+
+                    location.href = "/";
+                } else {
+                    MSAlerta("danger", "Atenção!", data.Mensagem, $("#ms-alerta"));
+                }
+            }
+        });
+    }
+};
+
+ComboAfinidade = function (objeto) {
+    $.ajax({
+        type: 'post',
+        url: '/Campanha/ComboAfinidade',
+        async: false,
+        beforeSend: function () {
+            Carregando(true);
+        },
+        complete: function () {
+            Carregando(false);
+        },
+        success: function (data) {
+            var html = "";
+
+            $.map(data, function (item) {
+                html += "<option value='" + item.CodigoAfinidade + "'>" + item.Nome + "</option>";
+            });
+
+            $(objeto).html(html);
+        }
+    });
+}
+
+InsereCampanha = function () {
+    if ($('#form').parsley().validate()) {
+        $.ajax({
+            type: 'post',
+            url: '/Campanha/InsereCampanha',
+            data: $("#form").serialize(),
+            beforeSend: function () {
+                $("#ms-alerta").empty();
+                Carregando(true);
+            },
+            complete: function () {
+                Carregando(false);
+            },
+            success: function (data) {
+                if (data.Sucesso === true) {
+                    location.href = "/Campanha";
+                } else {
+                    MSAlerta("danger", "Atenção!", data.Mensagem, $("#ms-alerta"));
+                }
+            }
+        });
+    }
+};
+
+SalvaCampanha = function () {
+    if ($('#form').parsley().validate()) {
+        $.ajax({
+            type: 'post',
+            url: '/Campanha/SalvaCampanha',
+            data: $("#form").serialize(),
+            beforeSend: function () {
+                $("#ms-alerta").empty();
+                Carregando(true);
+            },
+            complete: function () {
+                Carregando(false);
+            },
+            success: function (data) {
+                if (data.Sucesso === true) {
+                    location.href = "/Campanha";
+                } else {
+                    MSAlerta("danger", "Atenção!", data.Mensagem, $("#ms-alerta"));
+                }
+            }
+        });
+    }
+};

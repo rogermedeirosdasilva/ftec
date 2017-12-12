@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<TrabalhoGB.Dominio.Doacao>
+
+@{
     ViewBag.Title = "Doações";
     Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
 }
@@ -50,7 +52,13 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Descricao</td>
+                        <td><input type="checkbox" id="@m.CodigoDoacao" class="form-control checkbox chk_af" /></td>
+                    </tr>
+                }
                 <tbody>
 
                 </tbody>

@@ -4,6 +4,7 @@
     using Interacao.Framework;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Data.Entity.Validation;
 
     public class PessoaNegocio
     {
@@ -77,7 +78,14 @@
                 New = Dados.Pessoa.Add(obj)
             };
 
-            Dados.SaveChanges();
+            try
+            { 
+                Dados.SaveChanges();
+            }
+            catch(DbEntityValidationException ex)
+            {
+                resposta.Mensagem = ex.Message;
+            }
 
             return resposta;
         }
@@ -162,6 +170,112 @@
             int tipo = (int)ETipoPessoa.ONG;
 
             return Dados.Pessoa.Where(w => w.Tipo.Equals(tipo) && w.Aprovado.Equals("N")).ToList();
+        }
+
+        public List<MinhasAfinidades> MinhasAfinidades(string codigo)
+        {
+            var Dados = Repositorio.PegaInstancia();
+            var afinidades = Afinidades();
+
+            var retorno = new List<MinhasAfinidades>();
+
+            var minhas = Dados.Pessoa.Where(w => w.CodigoPessoa.Equals(codigo))
+                .SingleOrDefault()
+                .Afinidade
+                .ToList();
+
+            foreach(var afinidade in afinidades)
+            {
+                var m = new MinhasAfinidades
+                {
+                    Descricao = afinidade.Descricao,
+                    Nome = afinidade.Nome,
+                    CodigoAfinidade = afinidade.CodigoAfinidade,
+                    Selecionada = (minhas.Where(w => w.CodigoAfinidade.Equals(afinidade.CodigoAfinidade)).Count() > 0)
+                };
+
+                retorno.Add(m);
+            }
+
+            return retorno;
+        }
+
+        public void AtualizaAfinidade(string codigo, string afinidade, bool selecionado)
+        {
+            var Dados = Repositorio.PegaInstancia();
+            try
+            {
+                var voluntario = Dados.Pessoa.Where(w => w.CodigoPessoa.Equals(codigo)).FirstOrDefault();
+                var objeto = voluntario.Afinidade.Where(w => w.CodigoAfinidade.Equals(afinidade)).FirstOrDefault();
+                    
+                if (objeto != null)
+                {
+                    voluntario.Afinidade.Remove(objeto);
+                }
+
+                if (selecionado)
+                {
+                    objeto = Dados.Afinidade.Where(w => w.CodigoAfinidade.Equals(afinidade)).FirstOrDefault();
+                    voluntario.Afinidade.Add(objeto);
+                }
+
+                Dados.SaveChanges();
+            }
+            finally
+            {
+            }
+        }
+
+        public List<Afinidade> Afinidades()
+        {
+            var Dados = Repositorio.PegaInstancia();
+
+            return Dados.Afinidade
+                .ToList();
+        }
+
+        public List<Pessoa> PegaEntidadesAprovadas()
+        {
+            var Dados = Repositorio.PegaInstancia();
+
+            var tipo = (int)ETipoPessoa.ONG;
+
+            return Dados.Pessoa.Where(w => w.Tipo.Equals(tipo) && w.Aprovado.Equals("S"))
+                .OrderBy(o => o.Nome)
+                .ToList();
+        }
+
+        public List<Pessoa> PegasEntidadesNaoAprovadas()
+        {
+            var Dados = Repositorio.PegaInstancia();
+
+            var tipo = (int)ETipoPessoa.ONG;
+
+            return Dados.Pessoa.Where(w => w.Tipo.Equals(tipo) && !w.Aprovado.Equals("S"))
+                .OrderBy(o => o.Nome)
+                .ToList();
+        }
+
+        public GBResposta AprovaONG(string id)
+        {
+            var Dados = Repositorio.PegaInstancia();
+            var obj = Dados.Pessoa.Where(w => w.CodigoPessoa.Equals(id)).SingleOrDefault();
+
+            if (obj == null)
+            {
+                throw new Exception("ONG não encontrada.");
+            }
+
+            obj.Aprovado = "S";
+
+            Dados.SaveChanges();
+
+            return new GBResposta()
+            {
+                Sucesso = true,
+                Mensagem = "FEITO"
+            };
+
         }
     }
 }

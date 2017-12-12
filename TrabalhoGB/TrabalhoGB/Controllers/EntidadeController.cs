@@ -3,20 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrabalhoGB.Dominio.Negocio;
 
 namespace TrabalhoGB.Controllers
 {
-    public class EntidadeController : Controller
+    public class EntidadeController : GBBaseController
     {
-        // GET: Entidade
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            CarregaUsuario();
+
+            var lista = new PessoaNegocio().PegaEntidadesAprovadas();
+
+            return View(lista);
         }
 
+        [Authorize]
         public ActionResult Aprovar()
         {
-            return View();
+            CarregaUsuario();
+
+            var lista = new PessoaNegocio().PegasEntidadesNaoAprovadas();
+
+            return View(lista);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult AprovaEntidade(string id)
+        {
+            return Json(new PessoaNegocio().AprovaONG(id));            
         }
     }
 }

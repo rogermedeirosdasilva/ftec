@@ -13,6 +13,7 @@
         <AssociationConnector Association="Dominio.FK_Doacao_Campanha" ManuallyRouted="false" />
         <AssociationConnector Association="Dominio.FK_Doacao_Pessoa" ManuallyRouted="false" />
         <AssociationConnector Association="Dominio.PessoaAfinidade" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Dominio.MinhasCampanhas" Width="1.5" PointX="9.125" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

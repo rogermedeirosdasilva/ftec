@@ -63,6 +63,12 @@
       <DependentUpon>Entidades.tt</DependentUpon>
     </Compile>
     <Compile Include="GBResposta.cs" />
+    <Compile Include="MinhasCampanhas.cs">
+      <DependentUpon>Entidades.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\AfinidadeNegocio.cs" />
+    <Compile Include="Negocio\CampanhaNegocio.cs" />
+    <Compile Include="Negocio\DoacaoNegocio.cs" />
     <Compile Include="Negocio\PessoaNegocio.cs" />
     <Compile Include="Repositorio.cs" />
     <Compile Include="Doacao.cs">
@@ -88,6 +94,7 @@
       <DependentUpon>Entidades.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\MinhasAfinidades.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

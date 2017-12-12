@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Dominio.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Dominio.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Afinidade">
           <Key>
             <PropertyRef Name="CodigoAfinidade" />
@@ -32,6 +32,7 @@
           <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="CodigoCampanha" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="Descricao" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Quantidade" Type="decimal" Precision="15" Scale="2" Nullable="false" />
           <Property Name="Situacao" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="Pessoa">
@@ -60,6 +61,18 @@
           </Key>
           <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="CodigoAfinidade" Type="varchar" MaxLength="36" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Ajudar.dbo.MinhasCampanhas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MinhasCampanhas">
+          <Key>
+            <PropertyRef Name="CodigoCampanha" />
+            <PropertyRef Name="Nome" />
+            <PropertyRef Name="CodigoPessoa" />
+          </Key>
+          <Property Name="CodigoCampanha" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CodigoPessoa" Type="varchar" MaxLength="36" Nullable="false" />
         </EntityType>
         <Association Name="FK_Campanha_Afinidade">
           <End Role="Afinidade" Type="Self.Afinidade" Multiplicity="1" />
@@ -127,6 +140,13 @@
           <EntitySet Name="Doacao" EntityType="Self.Doacao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PessoaAfinidade" EntityType="Self.PessoaAfinidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MinhasCampanhas" EntityType="Self.MinhasCampanhas" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MinhasCampanhas].[CodigoCampanha] AS [CodigoCampanha], 
+    [MinhasCampanhas].[Nome] AS [Nome], 
+    [MinhasCampanhas].[CodigoPessoa] AS [CodigoPessoa]
+    FROM [dbo].[MinhasCampanhas] AS [MinhasCampanhas]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Campanha_Afinidade" Association="Self.FK_Campanha_Afinidade">
             <End Role="Afinidade" EntitySet="Afinidade" />
             <End Role="Campanha" EntitySet="Campanha" />
@@ -148,8 +168,7 @@
             <End Role="PessoaAfinidade" EntitySet="PessoaAfinidade" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Dominio" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -187,6 +206,7 @@
           <Property Name="Situacao" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Campanha" Relationship="Self.FK_Doacao_Campanha" FromRole="Doacao" ToRole="Campanha" />
           <NavigationProperty Name="Pessoa" Relationship="Self.FK_Doacao_Pessoa" FromRole="Doacao" ToRole="Pessoa" />
+          <Property Name="Quantidade" Type="Decimal" Nullable="false" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="Pessoa">
           <Key>
@@ -270,7 +290,18 @@
             <End Role="Afinidade" EntitySet="Afinidade" />
             <End Role="Pessoa" EntitySet="Pessoa" />
           </AssociationSet>
+          <EntitySet Name="MinhasCampanhas" EntityType="Dominio.MinhasCampanhas" />
         </EntityContainer>
+        <EntityType Name="MinhasCampanhas">
+          <Key>
+            <PropertyRef Name="CodigoCampanha" />
+            <PropertyRef Name="Nome" />
+            <PropertyRef Name="CodigoPessoa" />
+          </Key>
+          <Property Name="CodigoCampanha" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPessoa" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -301,6 +332,7 @@
           <EntitySetMapping Name="Doacao">
             <EntityTypeMapping TypeName="Dominio.Doacao">
               <MappingFragment StoreEntitySet="Doacao">
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
                 <ScalarProperty Name="CodigoDoacao" ColumnName="CodigoDoacao" />
                 <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
                 <ScalarProperty Name="CodigoCampanha" ColumnName="CodigoCampanha" />
@@ -337,6 +369,15 @@
               <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="MinhasCampanhas">
+            <EntityTypeMapping TypeName="Dominio.MinhasCampanhas">
+              <MappingFragment StoreEntitySet="MinhasCampanhas">
+                <ScalarProperty Name="CodigoPessoa" ColumnName="CodigoPessoa" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="CodigoCampanha" ColumnName="CodigoCampanha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

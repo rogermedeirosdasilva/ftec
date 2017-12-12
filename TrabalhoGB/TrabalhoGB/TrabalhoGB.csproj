@@ -781,6 +781,7 @@
     <Content Include="Views\Voluntario\Index.cshtml" />
     <Content Include="Views\Voluntario\Campanhas.cshtml" />
     <Content Include="Views\Voluntario\Doacao.cshtml" />
+    <Content Include="Views\Campanha\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

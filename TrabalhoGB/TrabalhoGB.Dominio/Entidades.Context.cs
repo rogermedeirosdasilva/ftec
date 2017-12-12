@@ -29,5 +29,6 @@ namespace TrabalhoGB.Dominio
         public virtual DbSet<Campanha> Campanha { get; set; }
         public virtual DbSet<Doacao> Doacao { get; set; }
         public virtual DbSet<Pessoa> Pessoa { get; set; }
+        public virtual DbSet<MinhasCampanhas> MinhasCampanhas { get; set; }
     }
 }

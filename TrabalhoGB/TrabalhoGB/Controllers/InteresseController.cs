@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrabalhoGB.Dominio.Negocio;
 
 namespace TrabalhoGB.Controllers
 {
-    public class InteresseController : Controller
+    public class InteresseController : GBBaseController
     {
-        // GET: Interesse
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            CarregaUsuario();
+
+            var lista = new DoacaoNegocio().PegaInseridas();
+
+            return View(lista);
         }
     }
 }

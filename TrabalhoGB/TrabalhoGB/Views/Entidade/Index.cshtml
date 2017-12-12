@@ -1,6 +1,8 @@
-﻿@{
+﻿@model List<TrabalhoGB.Dominio.Pessoa>
+
+@{
     ViewBag.Title = "Entidades";
-    Layout = "~/Views/Shared/_LayoutGoverno.cshtml";
+    Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
 }
 
 @section JSDocumentReady {
@@ -52,10 +54,19 @@
                         <th>E-mail</th>
                         <th>Cidade</th>
                         <th>UF</th>
-                        <th>Ações</th>
                     </tr>
                 </thead>
-
+                    @foreach (var item in Model)
+                    {
+                        <tr id="@item.CodigoPessoa">
+                            <td>@item.Nome</td>
+                            <td>@item.Documento</td>
+                            <td>@item.Telefone</td>
+                            <td>@item.Email</td>
+                            <td>@item.Cidade</td>
+                            <td>@item.UF</td>
+                        </tr>
+                    }
                 <tbody>
 
                 </tbody>

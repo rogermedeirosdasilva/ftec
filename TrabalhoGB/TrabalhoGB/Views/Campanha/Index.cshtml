@@ -53,15 +53,14 @@
                 <thead>
                     <tr>
                         <th>Descrição</th>
-                        <th>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr id="@item.Codigo">
-                            <td><a href="/Campanha/Edit/@item.Codigo">@item.Descricao</a></td>
+                        <tr id="@item.CodigoCampanha">
+                            <td><a href="/Campanha/Edit/@item.CodigoCampanha">@item.Descricao</a></td>
                         </tr>
                     }
                 </tbody>

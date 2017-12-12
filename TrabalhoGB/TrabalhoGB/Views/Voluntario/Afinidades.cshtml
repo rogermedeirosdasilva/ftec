@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<TrabalhoGB.Dominio.MinhasAfinidades>
+
+@{
     ViewBag.Title = "Afinidades";
     Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
 }
@@ -15,6 +17,12 @@
             }
         });
     }
+
+    $("input.chk_af").click(function() {
+        var id = $(this).attr("id");
+        var estado = $(this).attr("checked");
+        AtualizaAfinidade(id, estado);
+    });
 }
 
 @section CSS {
@@ -47,11 +55,19 @@
                 <thead>
                     <tr>
                         <th>Descrição</th>
-                        <th>Ações</th>
+                        <th>Selecionar</th>
                     </tr>
                 </thead>
 
-                <tbody></tbody>
+                <tbody>
+                    @foreach(var m in Model)
+                    {
+                        <tr>
+                            <td>@m.Descricao</td>
+                            <td><input type="checkbox" id="@m.CodigoAfinidade" @if (m.Selecionada) { @Html.Raw("checked")  } class="form-control checkbox chk_af" /></td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
